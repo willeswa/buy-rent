@@ -1,0 +1,373 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background: #eff3f6;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.navbar {
+  background: #ffffff;
+}
+
+.navbar-brand {
+  text-transform: uppercase;
+}
+
+.first-nb {
+  font-weight: 100;
+  color: #20a348;
+}
+
+.second-nb {
+  font-weight: bolder;
+  color: #20a348;
+}
+
+.signupForm {
+  margin: 2% auto;
+  padding: 2% 3%;
+  width: 42%;
+  background: #ffffff;
+}
+
+label {
+  color: #48494a;
+}
+
+.signupForm h4 {
+  text-align: center;
+  font-weight: 100;
+  color: #20a348;
+}
+
+.btn {
+  background: #20a348;
+  border: #20a348 1px solid;
+  font-weight: bold;
+  box-shadow: rgba(57, 73, 76, 0.35) 0px 1px 6px;
+  color: #ffffff;
+}
+
+.btn:hover {
+  background: #1d832d;
+  border: #1d832d 1px solid;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  border: #ffffff 2px solid;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #20a348;
+  border-bottom: #20a348 2px solid;
+}
+
+.navbar-light .navbar-nav .nav-link:active {
+  color: #20a348;
+}
+
+.form-control:focus {
+  border-color: #20a348;
+  box-shadow: rgba(57, 73, 76, 0.35) 0px 1px 6px;
+}
+
+input.form-control::placeholder {
+  opacity: 0.3;
+  font-weight: 100;
+  /* color: #1D832D; */
+  font-size: 0.9em;
+}
+
+.jumbotron {
+  background: #184153;
+  color: #ffffff;
+}
+
+.display-3 {
+  width: 52%;
+  font-size: 2.7em;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.display-4 {
+  font-size: 1.9em;
+  color: #20a348;
+}
+
+.lead {
+  width: 50%;
+  font-size: 1em;
+}
+
+#inline-block .btn,
+.btn-block {
+  font-weight: 100;
+  font-size: 1.2em;
+}
+.container .card {
+  background: #184153;
+  text-align: center;
+  border: none;
+  width: 17%;
+  box-shadow: rgba(57, 73, 76, 0.35) 0px 1px 6px;
+}
+
+.container .card img {
+  height: 120px;
+  object-fit: contain;
+}
+
+.container .card .card-body {
+  background: #ffffff;
+}
+
+.h5 {
+  padding: 2%;
+  margin: 0;
+}
+
+.container-fluid {
+  background: #ffffff;
+}
+
+.container-fluid .card {
+  width: 32%;
+  margin-right: 1%;
+  border: none;
+  box-shadow: rgba(57, 73, 76, 0.35) 0px 1px 6px;
+}
+
+.container-fluid .card img {
+  height: 170px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.container-fluid .row span {
+  font-size: 0.8em;
+}
+
+.container-fluid .card .row {
+  height: 70px;
+}
+
+.price {
+  color: #1d832d;
+  font-weight: bold;
+}
+
+.see-all {
+  color: #184153;
+  font-weight: bold;
+  border-bottom: #1d832d 1px solid;
+  padding: 10px 20px;
+  display: block;
+  text-align: end;
+}
+
+.see-all:hover {
+  text-decoration: none;
+  color: #20a348;
+}
+
+.how-it-works .card {
+  width: 30%;
+  background: transparent;
+  margin: 1%;
+  box-shadow: none;
+}
+
+.how-it-works .card .card-body {
+  background: transparent;
+}
+
+.how-it-works .card .h5 {
+  width: 100%;
+  font-size: 1.1em;
+  color: #1d832d;
+  text-align: center;
+  padding: 4% 0;
+}
+
+.how-it-works .card .card-text {
+  font-size: 0.8em;
+  padding: 2% 0;
+}
+
+.how-it-works .card img {
+  height: 120px;
+  padding: 6%;
+}
+
+.how-it-works {
+  padding-bottom: 2%;
+  padding-top: 2%;
+}
+
+#h5 {
+  padding: 3% 0;
+  /* margin-left: -8px; */
+  text-align: center;
+}
+
+.list-now-strip {
+  background: #ffffff;
+  padding: 2%;
+  margin-top: 4%;
+}
+
+.list-now-strip .h2 {
+  padding: 0 1%;
+  color: #184153;
+}
+
+#strip-button {
+  padding: 1%;
+  height: 50px;
+  margin: 1% 0;
+}
+
+.paragraph {
+  font-size: 0.3em;
+  font-weight: bold;
+  color: #20a348;
+  padding: 1%;
+}
+@media (max-width: 600px) {
+  .signupForm {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .list-now-strip {
+    text-align: center;
+    padding: 2%;
+  }
+
+  .list-now-strip .h2{
+    display: none !important;
+  }
+
+  .paragraph {
+    display: none !important;
+  }
+
+  #strip-button{
+    display: block;
+    width: 100%;
+  }
+
+  .navbar {
+    -webkit-box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.35);
+  }
+
+  .lead,
+  .display-4,
+  .display-3 {
+    width: 100%;
+  }
+
+  .display-3 {
+    font-size: 2.2em;
+  }
+
+  .display-4 {
+    font-size: 1.6em;
+    padding: 0 1%;
+  }
+
+  #inline-block {
+    text-align: center;
+  }
+
+  #inline-block .btn {
+    width: 47%;
+    font-size: 1em;
+  }
+
+  .container .card {
+    width: 100%;
+    flex-direction: row;
+    height: 90px;
+    margin-bottom: 5px;
+  }
+  .container .card-body {
+    width: 80%;
+  }
+
+  .container .card img {
+    width: 22%;
+    height: auto;
+  }
+
+  .container-fluid .card {
+    width: 98%;
+    margin-bottom: 2%;
+  }
+
+  .container-fluid .row {
+    padding: 0;
+    /* margin: auto; */
+    margin: 0 -6px 0 1px;
+  }
+
+  .container-fluid {
+    padding: 1%;
+  }
+
+  #homeTypeButton {
+    background: transparent;
+    color: #184153;
+    box-shadow: none;
+    border: none;
+  }
+
+  .card-title {
+    display: none;
+  }
+
+  .how-it-works .card .h5 {
+    display: none;
+  }
+
+  .how-it-works .card {
+    height: 110px;
+  }
+}
+
+@media (max-width: 350px) {
+  #inline-block .btn {
+    width: 46%;
+    font-size: 0.9em;
+  }
+}
