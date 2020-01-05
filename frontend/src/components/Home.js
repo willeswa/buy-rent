@@ -104,7 +104,9 @@ export default () => {
                     Ksh. {toMoney(property.price)}
                   </span>
                 </div>
-                <a className="btn btn-lg btn-block">See this property</a>
+                <a className="btn btn-lg btn-block" href="/">
+                  See this property
+                </a>
               </div>
             </li>
           ))}
@@ -116,32 +118,41 @@ export default () => {
         </h4>
         <div className="row">
           <div className="card">
-            <img src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578100802/phonehand.png" />
+            <img
+              src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578100802/phonehand.png"
+              alt="step-1"
+            />
             <div className="card-body">
-              <h4 className="h5">Post your property on the platform</h4>
+              <h4 className="h5">Post your property</h4>
               <p className="card-text">
-                Use your phone to tell us about your property. Our platform will
-                connect you with thousands of customers.
+                Use your phone to list your property and let BuyRentBungoma take
+                you to clients.
               </p>
             </div>
           </div>
           <div className="card">
-            <img src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578100649/crowd.png" />
+            <img
+              src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578100649/crowd.png"
+              alt="step-2"
+            />
             <div className="card-body">
-              <h4 className="h5">Clients come to you!</h4>
+              <h4 className="h5">Clients come to you</h4>
               <p className="card-text">
-                Get potential customers within your locality without going
-                through layers of brokers and fake promises!
+                Reach genuine people within and outside your locality without
+                moving a muscle.
               </p>
             </div>
           </div>
           <div className="card">
-            <img src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578098885/deal-icon.png" />
+            <img
+              src="https://res.cloudinary.com/ddfufqlbx/image/upload/v1578098885/deal-icon.png"
+              alt="step-3"
+            />
             <div className="card-body">
               <h4 className="h5">Get a good deal</h4>
               <p className="card-text">
-                You don't have to share your money with brokers anymore. Which
-                means you get more value for your property.
+                Find the customer with the best offer and get more value for
+                your property.
               </p>
             </div>
           </div>
@@ -149,12 +160,42 @@ export default () => {
         <div className="row list-now-strip">
           <h1 className="col-10">
             <span className="d-block paragraph">
-              Thousands of Kenyans are looking for property to buy/rent in Bungoma
-              County
+              Thousands of Kenyans are looking for property to buy/rent in
+              Bungoma County
             </span>
-            <span className="d-block h2">Lease or Sell Propety in Bungoma County</span>
+            <span className="d-block h2">
+              Lease or Sell Propety in Bungoma County
+            </span>
           </h1>{" "}
-          <button className="btn" id="strip-button">List your Property</button>
+          <button className="btn" id="strip-button">
+            List your Property
+          </button>
+        </div>
+        <div className="d-flex" id="extras">
+          <div className="col-3">
+            <h4>Join the movement</h4>
+          </div>
+          <div className="d-flex" id="extras-cat">
+            <div>
+              <h5>For Professional Surveyors</h5>
+              <p>
+                Register into our database of surveyors and find clients that
+                are looking for your services
+              </p>
+            </div>
+            <div>
+              <h5>For Property Lawyers</h5>
+              <p>
+                Join the movement and help property buyers with the required legal process
+              </p>
+            </div>
+            <div>
+              <h5>For Property Agents</h5>
+              <p>
+                Help property buyers and sellers reach properties in your locality with ease
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

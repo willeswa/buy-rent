@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework import exceptions
@@ -29,6 +29,8 @@ class UserLoginView(generics.CreateAPIView):
 
             if not user.check_password(password):
                 raise Exception
+
+            login(request, user)
 
             token = get_tokens(user)
             return Response({'user': {'is_admin': user.is_superuser, 'email': user.email, 'token': token}})

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Alert } from "antd";
-import useDidMountEffect from "../utils/custom-hooks/DidMountEffect";
-import axios from "axios";
-import history from "../utils/history";
+import {useLocation} from 'react-router-dom';
 
 export default () => {
   const [email, setEmail] = useState("");
@@ -13,52 +11,12 @@ export default () => {
   const [isError, setIsError] = useState(false);
   const [singupError, setSingupError] = useState("");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   const baseUrl = "http://127.0.0.1:8000/api/auth";
-  
 
   
-
-  useDidMountEffect(() => {
-    const signup = async () => {
-      setLoading(true);
-      setIsError(false);
-      try {
-        const result = await axios.post(baseUrl + "/signup/", {
-          email: email,
-          phonenumber: phonenumber,
-          password: password
-        });
-
-        setUser(result.data)
-        localStorage.setItem("user", JSON.stringify(result.data));
-        
-        setLoading(false);
-        history.push({pathname: '/login', state: result.data})
-
-      } catch (error) {
-        setIsError(true);
-        setSubmit(false);
-        if (error.message === "Network Error") {
-          setSingupError("You seem to be offline!");
-        } else {
-          if (error.response.status === 400) {
-            setSingupError(
-              "Email or phonenumber is registered!"
-            );
-          } else {
-            setSingupError("Oops! Something went wrong...");
-          }
-        }
-
-        setLoading(false);
-      }
-    };
-    signup();
-  }, [submit]);
-
   
-
   return (
     <div>
       {isError ? (
@@ -79,9 +37,9 @@ export default () => {
           setSubmit(true);
         }}
       >
-        <h4 className="h5 pb-3">Register for Free</h4>
-        <div className="form-row">
-          <div className="form-group col-md-6">
+        <h4 className="h5 pb-3">{location.state ? <span>Welcome to Bungoma!<br></br> Login to continue...</span> : <span>Login to continue...</span>}</h4>
+        <div>
+          <div className="form-group">
             <label htmlFor="inputEmail1">Email:</label>
             <input
               type="email"
@@ -91,20 +49,6 @@ export default () => {
               onChange={e => setEmail(e.target.value)}
               required
               placeholder="wekesa@gmail.com"
-            />
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="inputPhone">Phone Number: </label>
-
-            <input
-              type="tel"
-              className="form-control form-control-md"
-              id="inputPhone"
-              aria-describedby="telHelp"
-              onChange={e => setPhonenumber(e.target.value)}
-              required
-              pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-              placeholder="07 ..."
             />
           </div>
         </div>
