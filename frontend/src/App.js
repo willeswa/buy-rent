@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import logo from './logo.svg';
-import Navbar from "./components/Navbar"
-import SignupForm from "./components/Signup"
-import './App.css';
+import React from "react";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/Footer";
+import UserContextWrapper from "./components/ContextWrapper";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
-    <>
-    <Navbar />
-    </>
+    <UserContextWrapper>
+      <Navbar />
+      <Footer />
+    </UserContextWrapper>
   );
 }
 

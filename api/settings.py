@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     
 ]
 
+SILENCED_SYSTEM_CHECKS = ["1_8.W001"]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faFire } from "@fortawesome/free-solid-svg-icons";
 import TextLoop from "react-text-loop";
 import toMoney from "../utils/Converters";
+import history from "../utils/history";
 
 export default () => {
   const [propertyTypes, setTypes] = useState([]);
   const [properties, setProperties] = useState([]);
 
   const baseUrl = "http://127.0.0.1:8000/api/properties";
+
+  
+  const handleClick = () => {
+    let data = JSON.parse(localStorage.getItem('user'));
+    data
+    ? history.push(`/dashboard/users/${data.user.id}`)
+    : history.push('/login')
+    
+  }
 
   useEffect(() => {
     const fetchPropertyTypes = async () => {
@@ -24,7 +34,6 @@ export default () => {
     const fetchProperties = async () => {
       const result = await axios(baseUrl + "/all");
       setProperties(result.data);
-      console.log(result.data);
     };
     fetchProperties();
   }, []);
@@ -52,8 +61,8 @@ export default () => {
           maximize profits from their properties.
         </p>
         <div className="inline-block" id="inline-block">
-          <button className="btn btn-lg rounded-0">I AM LOOKING</button>{" "}
-          <button className="btn btn-lg ml-3 rounded-0">I AM SELLING</button>
+          <a href="/properties" className="btn btn-lg">I AM LOOKING</a>{" "}
+          <button className="btn btn-lg ml-3" onClick={handleClick}>I AM SELLING</button>
         </div>
       </div>
       <div className="container">
@@ -83,11 +92,11 @@ export default () => {
       </div>
       <div className="container-fluid mt-5 pb-3">
         <a className="see-all" href="/properties">
-          See all properties <FontAwesomeIcon icon={faChevronRight} />{" "}
+         <span className="see-all-highlight"> See all properties <FontAwesomeIcon icon={faChevronRight} />{" "}</span>
         </a>
 
         <ul className="row pt-5">
-          {properties.slice(0, 3).map(property => (
+          {properties.slice(0, 4).map(property => (
             <li key={property.id} className="navbar-nav card">
               <img
                 src={property.image}
@@ -100,12 +109,12 @@ export default () => {
                   <span className="col-7">
                     {property.locality} in {property.ward}, {property.division}
                   </span>
-                  <span className="col-5 price">
+                  <span className="col-5" id="price">
                     Ksh. {toMoney(property.price)}
                   </span>
                 </div>
                 <a className="btn btn-lg btn-block" href="/">
-                  See this property
+                  View property details
                 </a>
               </div>
             </li>
@@ -164,7 +173,7 @@ export default () => {
               Bungoma County
             </span>
             <span className="d-block h2">
-              Lease or Sell Propety in Bungoma County
+              Lease or sell propety in Bungoma County
             </span>
           </h1>{" "}
           <button className="btn" id="strip-button">
@@ -175,24 +184,29 @@ export default () => {
           <div className="col-3">
             <h4>Join the movement</h4>
           </div>
-          <div className="d-flex" id="extras-cat">
-            <div>
-              <h5>For Professional Surveyors</h5>
+          <div className="d-flex border" id="extras-cat">
+            <div className="cat-div">
+              <h5>For professional surveyors</h5>
               <p>
                 Register into our database of surveyors and find clients that
                 are looking for your services
               </p>
             </div>
-            <div>
-              <h5>For Property Lawyers</h5>
+            <div
+              className="border-left border-right border-darken-5 cat-div"
+              id="mid-cat-div"
+            >
+              <h5>For property lawyers</h5>
               <p>
-                Join the movement and help property buyers with the required legal process
+                Join the movement and help property buyers with the required
+                legal process
               </p>
             </div>
-            <div>
-              <h5>For Property Agents</h5>
+            <div className="cat-div" id="last-cat-div">
+              <h5>For property agents</h5>
               <p>
-                Help property buyers and sellers reach properties in your locality with ease
+                Help property buyers and sellers reach properties in your
+                locality with ease
               </p>
             </div>
           </div>

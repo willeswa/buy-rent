@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Alert } from "antd";
-import useDidMountEffect from "../utils/custom-hooks/DidMountEffect";
+import useDidMountEffect from "../../utils/custom-hooks/DidMountEffect";
 import axios from "axios";
-import history from "../utils/history";
+import history from "../../utils/history";
 
 export default () => {
   const [email, setEmail] = useState("");
@@ -62,13 +62,13 @@ export default () => {
   return (
     <div>
       {isError ? (
-        <Alert
-          message={singupError}
-          className="antd-alert"
-          closable
-          type="error"
-          closeText="Dismiss!"
-        />
+       <div className="antd-holder"> <Alert
+       message={singupError}
+       className="antd-alert"
+       closable
+       type="error"
+       closeText="Dismiss!"
+     /></div>
       ) : (
         <div className="display-none"></div>
       )}
@@ -126,7 +126,7 @@ export default () => {
             disabled={loading}
             className="btn btn-primary btn-block"
           >
-            {loading ? "Signin up.." : "Sign Up"}
+            {loading ? "Signing up.." : "Sign Up"}
           </button>
         </div>
       </form>

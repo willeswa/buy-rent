@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import exceptions
 from rest_framework import status
 from .models import User
-from .serializers import UserSignupSerializer, UserLoginSerializer
+from .serializers import UserSignupSerializer, UserLoginSerializer, UserSerializer
 from rest_framework.permissions import AllowAny
 from ..utils.generate_tokens import get_tokens
 
@@ -33,7 +33,7 @@ class UserLoginView(generics.CreateAPIView):
             login(request, user)
 
             token = get_tokens(user)
-            return Response({'user': {'is_admin': user.is_superuser, 'email': user.email, 'token': token}})
+            return Response({'user': {'id': user.id,'is_admin': user.is_superuser, 'email': user.email, 'token': token}})
             
         except Exception:
             return Response(status=status.HTTP_401_UNAUTHORIZED, data={"error": "Invalid email or password"})
@@ -43,6 +43,15 @@ class UserSignupView(generics.CreateAPIView):
     """User register view
     """
 
-    querset = User.objects.all()
+    queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = UserSignupSerializer
+
+class UserListView(generics.RetrieveAPIView):
+    """Returns all users
+    """
+
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = UserSerializer
+
