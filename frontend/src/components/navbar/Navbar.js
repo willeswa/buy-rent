@@ -23,7 +23,7 @@ export default () => {
     console.log('hey hey')
     localStorage.clear()
     setUser(null)
-    history.push('/')
+    history.push('/properties')
   }
 
   useEffect(() => {

@@ -176,9 +176,9 @@ export default () => {
               Lease or sell propety in Bungoma County
             </span>
           </h1>{" "}
-          <button className="btn" id="strip-button">
+          <a className="btn" id="strip-button" href="/">
             List your Property
-          </button>
+          </a>
         </div>
         <div className="d-flex" id="extras">
           <div className="col-3">

@@ -15,9 +15,6 @@ export default () => {
   const [loading, setLoading] = useState(false);
 
   const baseUrl = "http://127.0.0.1:8000/api/auth";
-  
-
-  
 
   useDidMountEffect(() => {
     const signup = async () => {
@@ -30,12 +27,11 @@ export default () => {
           password: password
         });
 
-        setUser(result.data)
+        setUser(result.data);
         localStorage.setItem("user", JSON.stringify(result.data));
-        
-        setLoading(false);
-        history.push({pathname: '/login', state: result.data})
 
+        setLoading(false);
+        history.push({ pathname: "/login", state: result.data });
       } catch (error) {
         setIsError(true);
         setSubmit(false);
@@ -43,9 +39,7 @@ export default () => {
           setSingupError("You seem to be offline!");
         } else {
           if (error.response.status === 400) {
-            setSingupError(
-              "Email or phonenumber is registered!"
-            );
+            setSingupError("Email or phonenumber is registered!");
           } else {
             setSingupError("Oops! Something went wrong...");
           }
@@ -57,18 +51,19 @@ export default () => {
     signup();
   }, [submit]);
 
-  
-
   return (
     <div>
       {isError ? (
-       <div className="antd-holder"> <Alert
-       message={singupError}
-       className="antd-alert"
-       closable
-       type="error"
-       closeText="Dismiss!"
-     /></div>
+        <div className="antd-holder">
+          {" "}
+          <Alert
+            message={singupError}
+            className="antd-alert"
+            closable
+            type="error"
+            closeText="Dismiss!"
+          />
+        </div>
       ) : (
         <div className="display-none"></div>
       )}

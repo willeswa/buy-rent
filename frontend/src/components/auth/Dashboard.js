@@ -1,15 +1,39 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Card, Empty, Drawer, Form, Input, Select, InputNumber,  Upload, Icon, Modal} from "antd";
+
+import { Card, Empty, Drawer, Form, Input, Select } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+
+
+
+
 const basePropertyUrl = "http://127.0.0.1:8000/api/properties/";
 
-const divisionsData = ["Elgon", "Kanduyi", "Sirisia", "Kabuchai", "Bumula", "WebuyeEast", "WebuyeWest", "Kimilili", "Tongaren"];
+const divisionsData = [
+  "Elgon",
+  "Kanduyi",
+  "Sirisia",
+  "Kabuchai",
+  "Bumula",
+  "WebuyeEast",
+  "WebuyeWest",
+  "Kimilili",
+  "Tongaren"
+];
 const wardData = {
-  Kanduyi: ["BukembeWest", "BukembeEast", "Township", "Khalaba", "Musikoma",  "EastSanagalo", "Marakatu", "Tuuti", "WestSangalo"],
+  Kanduyi: [
+    "BukembeWest",
+    "BukembeEast",
+    "Township",
+    "Khalaba",
+    "Musikoma",
+    "EastSanagalo",
+    "Marakatu",
+    "Tuuti",
+    "WestSangalo"
+  ],
   Sirisia: ["Namwela", "MalakisiSouth", "Kulisiru", "Lwandanyi"],
   Bumula: ["Bumula", "Khasoko", "Kabula", "Kimaeti", "SouthBukusu", "Siboti"],
   Elgon: ["Cheptais", "Chesikaki", "Chepyuk", "Kapkateny", "Kaptama", "Elgon"],
@@ -17,12 +41,22 @@ const wardData = {
   WebuyeEast: ["Mihuu", "Ndivisi", "Maraka"],
   WebuyeWest: ["Sitikho", "Matulo", "Bokoli"],
   Kimilili: ["Kibingei", "Kimilili", "Maeni", "Kamukuywa"],
-  Tongaren: ["Mbakalo", "Kabuyefwe", "Milima", "NdaluTabani", "Tongaren", "SoysambuMitua"]
+  Tongaren: [
+    "Mbakalo",
+    "Kabuyefwe",
+    "Milima",
+    "NdaluTabani",
+    "Tongaren",
+    "SoysambuMitua"
+  ]
 };
 
-console.log("Could", wardData[divisionsData[0]]);
 
-const Dashboard = props => {
+const {Option} = Select;
+const {TextArea } = Input;
+const {InputNumber} = Input;
+
+export default props => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [drawer, setOpenDrawer] = useState(false);
@@ -31,23 +65,15 @@ const Dashboard = props => {
   const [propertyData, setPropertyData] = useState({});
   const [submit, setSubmit] = useState(false);
   const [propertySize, setPropertySize] = useState("");
-  const [propertyTitle, setPropertyTitle] = useState("");
+
   const [divisions, setDivision] = useState(wardData[divisionsData[0]]);
   const [ward, setWard] = useState(wardData[divisionsData[0]][0]);
   // const [propertyType, setPropertyType] = useState('');
 
   const baseUrl = "http://127.0.0.1:8000/api/auth";
 
-  const location = useLocation();
-
   const user_id = props.match.params.id;
   const viewPort = window.innerWidth;
-
-  const { Meta } = Card;
-  const { Option } = Select;
-  const {TextArea } = Input;
-
-  const { getFieldDecorator } = props.form;
 
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -77,6 +103,16 @@ const Dashboard = props => {
   const handleWardChange = value => {
     setWard(value);
   };
+
+  const onSubmit = value => {
+    console.log("some", value);
+  };
+
+  const handleSubmit = value => {
+    console.log(value);
+  };
+
+
 
   console.log(propertySize);
 
@@ -113,6 +149,7 @@ const Dashboard = props => {
     };
     getThisUser();
   }, []);
+
   return (
     <div class="container dashboard-container">
       <div class="row">
@@ -159,161 +196,9 @@ const Dashboard = props => {
         }
       >
         <div>
-          <Form hideRequiredMark>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <Form.Item label="Title">
-                  {getFieldDecorator("title", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please enter a catchy title for your ad"
-                      }
-                    ]
-                  })(
-                    <Input
-                      className="form-control form-control-md"
-                      placeholder="eg. Fertile one acre available for sale"
-                    />
-                  )}
-                </Form.Item>
-              </div>
-              <div className="form-group col-md-2">
-                <Form.Item label="Constituency">
-                  {getFieldDecorator("division", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please enter a catchy division for your ad"
-                      }
-                    ]
-                  })(
-                    <Select
-                      defaultValue={divisionsData[0]}
     
-                      onChange={handleDivisionChange}
-                    >
-                      {divisionsData.map(division => (
-                        <Option key={division}>{division}</Option>
-                      ))}
-                    </Select>
-                  )}
-                </Form.Item>
-              </div>
-
-              <div className="form-group col-md-2">
-                <Form.Item label="Ward">
-                  {getFieldDecorator("ward", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please enter a catchy title for your ad"
-                      }
-                    ]
-                  })(
-                    <Select
-
-                      value={ward}
-                      onChange={handleWardChange}
-                    >
-                      {divisions.map(division => (
-                        <Option key={division}>{division}</Option>
-                      ))}
-                    </Select>
-                  )}
-                </Form.Item>
-              </div>
-
-              <div className="form-group col-md-2">
-                <Form.Item label="Village">
-                  {getFieldDecorator("ward", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please enter a catchy title for your ad"
-                      }
-                    ]
-                  })(
-                    <Select
-
-                      value={ward}
-                      onChange={handleWardChange}
-                    >
-                      {divisions.map(division => (
-                        <Option key={division}>{division}</Option>
-                      ))}
-                    </Select>
-                  )}
-                </Form.Item>
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-8">
-              <Form.Item label="Decription" labelAlign="left">
-                  {getFieldDecorator("description", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please enter a detailed description of our property!"
-                      }
-                    ]
-                  }) (<TextArea rows={4} className="form-control" placeholder="eg. Spacious two bedroom house...." />)}
-                  </Form.Item>
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-3">
-                <Form.Item label="Property Type" labelAlign="left">
-                  {getFieldDecorator("property_type", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please select the type of property!"
-                      }
-                    ]
-                  })(
-                    <Select
-                      placeholder="eg. Land"
-                      onChange={handleSelectChange}
-                      
-                    >
-                      <Option  key="lands">Land</Option>
-                      <Option key="stalls">Stall</Option>
-                      <Option key="hostels">Hostel</Option>
-                      <Option key="rentals">Rental</Option>
-                      <Option key="offices">Office</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </div>
-              <div className="form-group col-md-3">
-                <Form.Item label="Land Size" labelAlign="left">
-                  {getFieldDecorator("land_size", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "What is the size of the land?"
-                      }
-                    ]
-                  })(
-                    <InputNumber
-                      min={0.01}
-                      formatter={value =>
-                        `Acre ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                      }
-                      parser={value => value.replace(/\w+\s?|(,*)/g, "")}
-                      onChange={value => setPropertySize(value)}
-                      step={0.01}
-                    />
-                  )}
-                </Form.Item>
-              </div>
-            </div>
-          </Form>
         </div>
       </Drawer>
     </div>
   );
 };
-
-export default Form.create()(Dashboard);
