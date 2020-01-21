@@ -1,1 +1,1 @@
-web: gunicorn bungomaplus.api.wsgi
+web: gunicorn api.wsgi
