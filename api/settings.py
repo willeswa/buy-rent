@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'cloudinary',
+    'corsheaders',
     
     'api.properties',
     'api.authentication',
@@ -55,6 +56,7 @@ SILENCED_SYSTEM_CHECKS = ["1_8.W001"]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -106,6 +108,7 @@ DATABASES = {
         'HOST': os.getenv('HOST', 'localhost'),
     }
 }
+
 
 
 # Password validation
@@ -187,3 +190,9 @@ cloudinary.config(
     api_key=os.getenv('CLOUDINARY_KEY'),
     api_secret=os.getenv('CLOUDINARY_SECRET')
 )
+
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080",
+    "http://127.0.0.1:9000"
+]
