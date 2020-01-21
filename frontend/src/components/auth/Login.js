@@ -6,7 +6,7 @@ import { Setter } from "../../utils/custom-hooks/HitTheServer";
 
 export default ({ state }) => {
   const [loginData, setLoginData] = useState({});
-  const baseUrl = "http://127.0.0.1:8000/api/auth/login/";
+  const baseUrl = "https://bungomaplus.herokuapp.com/api/auth/login/";
   const [
     isLoading,
     error,

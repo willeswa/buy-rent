@@ -5,7 +5,7 @@ import history from "../history";
 import types from "../../reducers/actionTypes";
 import { UserContext } from "../contexts";
 
-const baseUrl = "http://localhost:8000/api/";
+const baseUrl = "https://bungomaplus.herokuapp.com/api/";
 
 export const Getter = endpoint => {
   const [isError, setIsError] = useState(false);
