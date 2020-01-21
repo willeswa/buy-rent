@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import useDidMountEffect from "../../utils/custom-hooks/DidMountEffect";
 import history from "../history";
-import {postReducer} from "../../reducers/Auth";
 import types from "../../reducers/actionTypes";
+import { UserContext } from "../contexts";
 
 const baseUrl = "http://localhost:8000/api/";
-
-
 
 export const Getter = endpoint => {
   const [isError, setIsError] = useState(false);
@@ -29,7 +27,7 @@ export const Getter = endpoint => {
         setData(result.data);
       } catch (error) {
         setIsError(true);
-        setError(error.message);
+        setError(error);
       }
 
       setIsLoading(false);
@@ -42,40 +40,67 @@ export const Getter = endpoint => {
 export const Setter = () => {
   const [setterData, setSetterData] = useState({});
   const [url, setUrl] = useState("");
+  const [entry, setEntry] = useState("property");
   const [submit, setSubmit] = useState(false);
-  const [state, dispatch] = useReducer(postReducer, {
-    isError: false,
-    isLoading: false,
-    submit: false,
-    payload: {},
-    error: null
-  });
+  const [error, setError] = useState({ isError: false, message: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useContext(UserContext);
 
   useDidMountEffect(() => {
     const doSet = async () => {
-      dispatch({ type: types.loadingAction });
+      setError({ ...error, isError: false });
+      setIsLoading(true);
+
+      let result;
+      let token;
 
       try {
-        const result = await axios.post(url, setterData);
+        
 
-        dispatch({ type: types.postSuccess, payload: result.data });
+        if (entry === "property") {
+          token = JSON.parse(localStorage.getItem('token')).access
+          result = await axios.post(url, setterData, {headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }});
+          dispatch({ type: types.propertySuccess, payload: result.data });
+          
+        } else {
+          result = await axios.post(url, setterData);
+          dispatch({ type: types.authSuccess, user: result.data });
 
-        localStorage.setItem("user", JSON.stringify(result.data));
-        if (result.data.user) {
-          localStorage.setItem("token", JSON.stringify(result.data.user.token));
+          localStorage.setItem("user", JSON.stringify(result.data));
+          if (result.data.user) {
+            localStorage.setItem(
+              "token",
+              JSON.stringify(result.data.user.token)
+            );
+          }
+
+          history.push({
+            pathname: "/dashboard/users/".concat(result.data.user.id),
+            state: result.data
+          });
         }
 
-        history.push({
-          pathname: "/dashboard/users/".concat(result.data.user.id),
-          state: result.data
-        });
+        setIsLoading(false);
       } catch (error) {
-        dispatch({ type: types.postFailure, error: error.message  });
         setSubmit(false);
+        setIsLoading(false);
+
+        console.log(error.message)
+        error.message === "Network Error"
+        ? setError({
+          ...error,
+          message: error.message,
+          isError: true
+        })
+        : setError({
+          ...error,
+          message: error.response.data.error,
+          isError: true
+        });
       }
     };
     doSet();
   }, [url, submit]);
 
-  return [state, setUrl, setSetterData, setSubmit];
+  return [isLoading, error, setEntry, setUrl, setSetterData, setSubmit];
 };

@@ -8,12 +8,12 @@ import { faFire, faHome } from "@fortawesome/free-solid-svg-icons";
 export default () => {
   const [{ data, isLoading, isError, error }] = Getter("properties/all", "get");
 
-  const groupByType = (data, key) => {
-    return data.reduce((obj, property) => {
+  const groupByType = (data, key) => (
+     data.reduce((obj, property) => {
       (obj[property[key]] = obj[property[key]] || []).push(property);
       return obj;
-    }, {});
-  };
+    }, {})
+  ); 
 
   const sortedPropertiesObj = groupByType(data, "property_type");
 
@@ -25,7 +25,7 @@ export default () => {
         <>
           {isError ? (
               <div className="antd-holder"> <Alert
-              message={error}
+              message={error.message}
               className="antd-alert"
               closable
               type="error"

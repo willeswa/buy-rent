@@ -1,4 +1,4 @@
-FROM python:3.6.8-alpine3.10
+FROM python:3.6.8-alpine3.11
 
 ADD ./requirements.txt /app/requirements.txt
 
@@ -21,6 +21,6 @@ WORKDIR /app
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
 
-EXPOSE 8000
+EXPOSE 80
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "bungomaplus.api.wsgi:api"]

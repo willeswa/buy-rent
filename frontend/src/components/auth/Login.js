@@ -3,10 +3,18 @@ import { Alert } from "antd";
 import { TextPasswordInput } from "../CustomInput";
 import { Setter } from "../../utils/custom-hooks/HitTheServer";
 
-export default () => {
+
+export default ({ state }) => {
   const [loginData, setLoginData] = useState({});
   const baseUrl = "http://127.0.0.1:8000/api/auth/login/";
-  const [state, doSet, setSetterData, setSubmit] = Setter(baseUrl);
+  const [
+    isLoading,
+    error,
+    setEntity,
+    doSet,
+    setSetterData,
+    setSubmit
+  ] = Setter();
 
   const handleInputChange = e => {
     let type = e.target.type;
@@ -16,14 +24,12 @@ export default () => {
       : setLoginData({ ...loginData, password: value });
   };
 
-  console.log(state)
-
   return (
-    <div>
-      {state.isError ? (
+    <>
+      {error.isError ? (
         <div className="antd-holder">
           <Alert
-            message={state.error}
+            message={error.message}
             className="antd-alert"
             closable
             type="error"
@@ -38,6 +44,7 @@ export default () => {
         onSubmit={event => {
           event.preventDefault();
           doSet(`${baseUrl}`);
+          setEntity();
           setSetterData(loginData);
           setSubmit(true);
         }}
@@ -63,13 +70,13 @@ export default () => {
 
           <button
             type="submit"
-            disabled={state.isLoading}
+            disabled={isLoading}
             className="btn btn-primary btn-block"
           >
-            {state.isLoading ? "Signin up.." : "Sign Up"}
+            {isLoading ? "Signin up.." : "Sign Up"}
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 };

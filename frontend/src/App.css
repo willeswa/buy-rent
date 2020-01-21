@@ -414,12 +414,21 @@ footer {
 
 .mobile-new-property-form{
   padding-top: 17%;
+  
 }
 .ant-form-item{
   margin-bottom: 0 !important;
 }
 
 #hidden{
+  display: none;
+}
+
+.visible{
+  display: block;
+}
+
+.hiddentity {
   display: none;
 }
 
