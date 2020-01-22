@@ -74,15 +74,15 @@ class AllProperties(views.APIView):
         """Returns a list of all the properties in the system
         """
 
-        lands = [{'id': 1+land.id, 'owner':land.owner, 'property_type': 'Lands', 'title': land.title, 'price': land.price, 'image': land.image, 'division': land.division,
+        lands = [{'id': 1+land.id, 'owner':land.owner.id, 'property_type': 'Lands', 'title': land.title, 'price': land.price, 'image': land.image, 'division': land.division,
                   'ward': land.ward, 'locality': land.locality} for land in Land.objects.all()]
-        stalls = [{'id': 2+stall.id, 'owner':stall.owner, 'property_type': 'Stalls', 'title': stall.title, 'price': stall.price, 'image': stall.image, 'division': stall.division,
+        stalls = [{'id': 2+stall.id, 'owner':stall.owner.id, 'property_type': 'Stalls', 'title': stall.title, 'price': stall.price, 'image': stall.image, 'division': stall.division,
                    'ward': stall.ward, 'locality': stall.locality} for stall in Stall.objects.all()]
-        offices = [{'id': 3+office.id,'owner':office.owner, 'property_type': 'Offices', 'title': office.title, 'price': office.price, 'image': office.image, 'division': office.division,
+        offices = [{'id': 3+office.id,'owner':office.owner.id, 'property_type': 'Offices', 'title': office.title, 'price': office.price, 'image': office.image, 'division': office.division,
                     'ward': office.ward, 'locality': office.locality} for office in OfficeSpace.objects.all()]
-        rentals = [{'id': 4+rental.id, 'owner':rental.owner, 'property_type': 'Rentals', 'title': rental.title, 'price': rental.price, 'image': rental.image, 'division': rental.division,
+        rentals = [{'id': 4+rental.id, 'owner':rental.owner.id, 'property_type': 'Rentals', 'title': rental.title, 'price': rental.price, 'image': rental.image, 'division': rental.division,
                     'ward': rental.ward, 'locality': rental.locality} for rental in Rental.objects.all()]
-        hostels = [{'id': 5+hostel.id, 'owner':hostel.owner, 'property_type': 'Hostels', 'title': hostel.title, 'price': hostel.price, 'image': hostel.image, 'division': hostel.division,
+        hostels = [{'id': 5+hostel.id, 'owner':hostel.owner.id, 'property_type': 'Hostels', 'title': hostel.title, 'price': hostel.price, 'image': hostel.image, 'division': hostel.division,
                     'ward': hostel.ward, 'locality': hostel.locality} for hostel in Hostel.objects.all()]
 
         all_properties = lands + stalls + offices + rentals + hostels
