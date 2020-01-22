@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 
-import {
-  Card,
-  Empty,
-  Drawer,
-  InputNumber,
-  Input,
-  Select,
-  Switch,
-  Form,
-  Alert
-} from "antd";
+import { Card, Empty, Drawer, InputNumber, Switch, Alert } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faWifi } from "@fortawesome/free-solid-svg-icons";
-import { Setter } from "../../utils/custom-hooks/HitTheServer";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { PropertySetter } from "../../utils/custom-hooks/HitTheServer";
 
 const provinceData = [
   "Elgon",
@@ -56,14 +46,12 @@ const cityData = {
 };
 
 const propertyTypes = ["Land", "Hostel", "Rental", "Stall", "Office"];
-const baseUrl = "http://127.0.0.1:8000/api/auth/properties/";
+const baseUrl = "https://bungomaplus.herokuapp.com/api/properties/";
 
 const { Meta } = Card;
-const { Option } = Select;
-const { TextArea } = Input;
 
 export default ({ state }) => {
-  const [drawer, setOpenDrawer] = useState(false);
+ 
 
   const viewPort = window.innerWidth;
 
@@ -71,53 +59,54 @@ export default ({ state }) => {
   const [ward, setWard] = useState(cityData[provinceData[0]][0]);
   const [propertyMeta, setPropertyMeta] = useState({});
   const [propertyData, setPropertyData] = useState({
-    division: "",
-    ward: "",
+    division: cityData[provinceData[0]],
+    ward: ward,
     title: "",
     description: "",
-    locality: "Nambwa Area"
+    locality: "Nambwa Area",
+    image:
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=666&q=80"
   });
   const [propertyType, setPropertyType] = useState("");
   const [url, setTypeUrl] = useState(baseUrl);
 
-  const [
-    isLoading,
-    error,
-    setEntry,
-    setUrl,
-    setSetterData,
-    setSubmit
-  ] = Setter();
+  const [setOpenDrawer, drawer, isLoading, error, setUrl, setProperty, setSubmit] = PropertySetter();
 
   const openDrawer = () => {
     setOpenDrawer(true);
+    setPropertyData({ ...propertyData, owner: state.user.user.id });
   };
 
   const closeDrawer = () => {
     setOpenDrawer(false);
   };
 
-  const handleProvinceChange = value => {
+  const handleProvinceChange = e => {
+    let value = e.target.value;
     setDivisions(cityData[value]);
     setPropertyData({ ...propertyData, division: value });
     setWard(cityData[value][0]);
   };
 
-  const onwardChange = value => {
+  const onwardChange = e => {
+    let value = e.target.value;
     setWard(value);
     setPropertyData({ ...propertyData, ward: value });
   };
 
-  const handlePriceNumberChange = value => {
+  const handlePriceNumberChange = e => {
+    let value = e.target.value;
     setPropertyData({ ...propertyData, price: value });
   };
 
-  const handleOfficeSpaceChange = value => {
+  const handleOfficeSpaceChange = e => {
+    let value = e.target.value;
     setPropertyData({ ...propertyData, squre_feet: value });
   };
 
-  const handleAcreageChange = value => {
-    setPropertyData({ ...propertyData, size: value });
+  const handleAcreageChange = e => {
+    let value = e.target.value;
+    setPropertyData({ ...propertyData, land_size: value });
   };
 
   const handleInputChange = e => {
@@ -134,7 +123,8 @@ export default ({ state }) => {
     }
   };
 
-  const handleRoomChange = value => {
+  const handleRoomChange = e => {
+    let value = e.target.value;
     setPropertyData({ ...propertyData, rooms: value });
   };
 
@@ -151,12 +141,25 @@ export default ({ state }) => {
     });
   };
 
-  const onPropertyChange = value => {
+  const onPropertyChange = e => {
     let endpoint;
-    setPropertyType(value);
+    let value = e.target.value;
+
     endpoint = `${value.toLowerCase()}`;
-    setPropertyData({ ...propertyData, property_type: value.toLowerCase() });
     setTypeUrl(`${baseUrl}${endpoint}s/`);
+    setPropertyType(value);
+
+    if (value === "Land") {
+      setPropertyData({ ...propertyData, property_type: 1 });
+    } else if (value === "Office") {
+      setPropertyData({ ...propertyData, property_type: 2 });
+    } else if (value === "Rental") {
+      setPropertyData({ ...propertyData, property_type: 3 });
+    } else if (value === "Stall") {
+      setPropertyData({ ...propertyData, property_type: 4 });
+    } else {
+      setPropertyData({ ...propertyData, property_type: 5 });
+    }
 
     switch (value) {
       case "Land":
@@ -240,14 +243,18 @@ export default ({ state }) => {
             }}
             description={<span>Your properties will show here</span>}
           >
-            <button className="btn btn-sm" onClick={openDrawer}>
+            <button type="button" className="btn btn-sm" onClick={openDrawer}>
               <FontAwesomeIcon icon={faPlus} /> Add Property
             </button>
           </Empty>
         </div>
       </div>
       <Drawer
-        title="New Property"
+        title={
+          isLoading
+            ? `Please wait. We are creating your ${propertyType}...`
+            : "New Property"
+        }
         width={viewPort < 1200 ? "100%" : "60%"}
         onClose={closeDrawer}
         visible={drawer}
@@ -256,7 +263,7 @@ export default ({ state }) => {
         }
       >
         <div>
-        {error.isError ? (
+          {error.isError ? (
             <div className="antd-holder">
               <Alert
                 message={error.message}
@@ -265,90 +272,110 @@ export default ({ state }) => {
                 type="error"
                 closeText="Dismiss!"
               />
-              <p>{console.log('kuna error hapa')}</p>
             </div>
           ) : (
-            <div>{console.log('huko kuko fiti')}</div>
+            <div></div>
           )}
           <form
+            name="newProperty"
             className="pb-5"
             onSubmit={event => {
               event.preventDefault();
-              setEntry("property");
               setUrl(`${url}`);
-              setSetterData(propertyData);
+              setProperty(propertyData);
               setSubmit(true);
             }}
           >
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Title: </label>
-                <Input
+                <input
+                  className="form-control form-control-sm"
+                  required
                   placeholder="eg. Fertile one acre for farming.."
                   id="title"
                   onChange={e => handleInputChange(e)}
+                  name="title"
                 />
               </div>
               <div className=" form-group col-md-2">
                 <label>Constituency:</label>
-                <Select
-                  defaultValue={provinceData[0]}
-                  style={{ width: `${100}%` }}
+                <select
                   onChange={handleProvinceChange}
+                  class="form-control form-control-sm"
+                  name="division"
                 >
+                  <option disabled selected>
+                    -- select --
+                  </option>
                   {provinceData.map(province => (
-                    <Option key={province}>{province}</Option>
+                    <option key={province}>{province}</option>
                   ))}
-                </Select>
+                </select>
               </div>
               <div className="form-group col-md-2">
                 <label>Ward: </label>
-                <Select
-                  style={{ width: `${100}%` }}
+                <select
+                  name="ward"
                   value={ward}
                   onChange={onwardChange}
+                  class="form-control form-control-sm"
                 >
+                  <option disabled selected>
+                    -- select --
+                  </option>
                   {divisions.map(city => (
-                    <Option key={city}>{city}</Option>
+                    <option key={city}>{city}</option>
                   ))}
-                </Select>
+                </select>
               </div>
             </div>
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Description: </label>
-                <TextArea
+                <textarea
+                  name="description"
+                  required
                   placeholder="Enter a detailed description of your property"
                   id="description"
                   onChange={e => handleInputChange(e)}
                   rows={4}
-                />
+                  className="form-control form-control-sm"
+                ></textarea>
               </div>
               <div className=" form-group col-md-2">
                 <label>Price:&nbsp;&nbsp;</label>
-                <InputNumber
-                  defaultValue={1}
-                  formatter={value =>
-                    `Ksh ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }
-                  parser={value => value.replace(/\w+\s?|(,*)/g, "")}
-                  onChange={handlePriceNumberChange}
-                  min={100}
-                  step={100.5}
-                />
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">Kes</div>
+                  </div>
+                  <input
+                    name="price"
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="inlineFormInputGroup"
+                    onChange={handlePriceNumberChange}
+                    min={100}
+                    step={100}
+                    required
+                  />
+                </div>
               </div>
 
               <div className="form-group col-md-2">
                 <label>Property Type:&nbsp;&nbsp;</label>
-                <Select
-                  style={{ width: `${100}%` }}
-                  value={propertyType}
+                <select
+                  name="type"
+                  class="form-control form-control-sm"
                   onChange={onPropertyChange}
                 >
+                  <option id="firsoption" disabled selected>
+                    -- select --
+                  </option>
                   {propertyTypes.map(type => (
-                    <Option key={type}>{type}</Option>
+                    <option key={type}>{type}</option>
                   ))}
-                </Select>
+                </select>
               </div>
             </div>
             <div className="form-row hiddentity" id="land">
@@ -360,18 +387,22 @@ export default ({ state }) => {
                   onChange={forsaleSwitch}
                 />
               </div>
-              <div className=" form-group col-md-3">
-                <label>Size of the Land:&nbsp;&nbsp;</label>
-                <InputNumber
-                  defaultValue={1}
-                  formatter={value =>
-                    `Acre ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }
-                  parser={value => value.replace(/\w+\s?|(,*)/g, "")}
-                  onChange={handleAcreageChange}
-                  min={0}
-                  step={0.1}
-                />
+              <div className=" form-group col-md-2">
+                <label>Size of Land:&nbsp;&nbsp;</label>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">Acres</div>
+                  </div>
+                  <input
+                    name="land_size"
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="inlineFormInputGroup"
+                    onChange={handleAcreageChange}
+                    min={0}
+                    step={0.1}
+                  />
+                </div>
               </div>
             </div>
             <div className="form-row hiddentity" id="rental">
@@ -385,32 +416,41 @@ export default ({ state }) => {
               </div>
               <div className=" form-group col-md-2">
                 <label>Rooms:&nbsp;&nbsp;</label>
-                <InputNumber
-                  defaultValue={1}
-                  formatter={value =>
-                    `Rooms ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }
-                  parser={value => value.replace(/\w+\s?|(,*)/g, "")}
-                  onChange={handleRoomChange}
-                  min={1}
-                  step={1}
-                />
+
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">Rooms</div>
+                  </div>
+                  <input
+                    name="rooms"
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="inlineFormInputGroup"
+                    onChange={handleRoomChange}
+                    min={1}
+                    step={1}
+                  />
+                </div>
               </div>
             </div>
             <div className="form-row hiddentity" id="office">
-              <div className=" form-group col-md-2">
+              <div className=" form-group col-md-3">
                 <label>Square Feet:&nbsp;&nbsp;</label>
-                <InputNumber
-                  id="square_feet"
-                  defaultValue={1}
-                  formatter={value =>
-                    `Sq ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }
-                  parser={value => value.replace(/\w+\s?|(,*)/g, "")}
-                  onChange={handleOfficeSpaceChange}
-                  min={1}
-                  step={0.5}
-                />
+
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">Square Feet</div>
+                  </div>
+                  <input
+                    name="land_size"
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="inlineFormInputGroup"
+                    onChange={handleOfficeSpaceChange}
+                    min={1}
+                    step={0.1}
+                  />
+                </div>
               </div>
               <div className="form-group col-md-2">
                 <label>WiFi Avaialble? &nbsp;&nbsp;</label>
@@ -457,7 +497,7 @@ export default ({ state }) => {
             </div>
             <div className="form-row hiddentity" id="stall"></div>
             <button type="submit" value="Submit" className="btn btn-sm">
-              Create Property
+              {isLoading ? "Creating..." : "Create Property"}
             </button>
           </form>
         </div>

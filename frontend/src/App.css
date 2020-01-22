@@ -104,7 +104,7 @@ label {
   box-shadow: rgba(57, 73, 76, 0.35) 0px 1px 6px;
 }
 
-input.form-control::placeholder {
+input.form-control::placeholder, textarea.form-control::placeholder {
   opacity: 0.3;
   font-weight: 100;
   /* color: #1D832D; */
@@ -432,6 +432,7 @@ footer {
   display: none;
 }
 
+
 @media (max-width: 1200px) {
 
   .col-md-3{
@@ -577,9 +578,7 @@ footer {
     border: none;
   }
 
-  .card-title {
-    display: none;
-  }
+ 
 
   .how-it-works .card .h5 {
     display: none;

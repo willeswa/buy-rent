@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Alert } from "antd";
 import { TextPasswordInput } from "../CustomInput";
-import { Setter } from "../../utils/custom-hooks/HitTheServer";
-
+import { AuthSetter } from "../../utils/custom-hooks/HitTheServer";
 
 export default ({ state }) => {
   const [loginData, setLoginData] = useState({});
@@ -10,11 +9,10 @@ export default ({ state }) => {
   const [
     isLoading,
     error,
-    setEntity,
     doSet,
     setSetterData,
     setSubmit
-  ] = Setter();
+  ] = AuthSetter();
 
   const handleInputChange = e => {
     let type = e.target.type;
@@ -44,38 +42,38 @@ export default ({ state }) => {
         onSubmit={event => {
           event.preventDefault();
           doSet(`${baseUrl}`);
-          setEntity();
           setSetterData(loginData);
           setSubmit(true);
         }}
       >
-        <h4 className="h5 pb-3">Login to Continue...</h4>
-        <div>
+        <h4 className="h5 pb-3">{isLoading ? 'Please wait...' : 'Login to Continue...'}</h4>
+        <div className="form-group">
           <TextPasswordInput
             inputType="inputEmail"
             type="email"
             onchange={e => handleInputChange(e)}
             placeholder="eg. wekesa@gmail.com"
             typeText="Email"
+            className="form-control"
           />
         </div>
-        <div>
+        <div className="form-group">
           <TextPasswordInput
             inputType="inputPassword"
             type="password"
             onchange={e => handleInputChange(e)}
             placeholder="*****"
             typeText="Password"
+            className="form-control"
           />
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="btn btn-primary btn-block"
-          >
-            {isLoading ? "Signin up.." : "Sign Up"}
-          </button>
         </div>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn btn-primary btn-block"
+        >
+          {isLoading ? "Loging in.." : "Login"}
+        </button>
       </form>
     </>
   );

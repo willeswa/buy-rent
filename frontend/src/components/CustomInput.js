@@ -1,11 +1,11 @@
 import React from "react";
 
 export const TextPasswordInput = props => (
-  <div className="form-group">
+  <div className={props.col}>
     <label htmlFor={props.inputType}>{props.typeText}:</label>
     <input
       type={props.type}
-      className="form-control form-control-md"
+      className={props.className}
       id={props.inputType}
       aria-describedby={props.typeHelp}
       onChange={props.onchange}

@@ -7,6 +7,7 @@ import { UserContext } from "./utils/contexts";
 
 function App() {
   const data = JSON.parse(localStorage.getItem("user" || null));
+  const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
   const [state, dispatch] = useReducer(postReducer, {
     payload: { properties: null },
@@ -14,7 +15,7 @@ function App() {
     isLoading: false,
     error: null,
     user: data,
-    isLoggedIn: false
+    isLoggedIn: isLoggedIn
   });
   console.log("Main app state", state);
 

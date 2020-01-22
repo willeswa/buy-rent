@@ -27,7 +27,7 @@ export default ({state}) => {
   const handleLogout = () => {
     dispatch({type: types.logoutUser, user: null})
     localStorage.clear()
-    window.location.replace('/properties')
+    history.push('/properties')
   }
 
 
@@ -47,10 +47,10 @@ export default ({state}) => {
                 <ul className="navbar-nav mr-auto ">
                   <NavItem text="Home" link="/" />
                   <NavItem text="Buy Property" link="/properties" />
-                  <NavItem text="Sell Property" link={state.user ? `/dashboard/users/${state.user.user.id}` : `/login`} />
+                  <NavItem text="Sell Property" link="/dashboard/users/" />
                 </ul>
     
-                <Authenticated user={state.user} onClick={handleLogout}/>
+                <Authenticated user={state.user} loggedin={state.isLoggedIn} onClick={handleLogout}/>
               </div>
             </nav>
             <Switch>

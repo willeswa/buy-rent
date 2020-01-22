@@ -13,8 +13,14 @@ export const postReducer = (state, action) => {
     case actionTypes.logoutUser:
       return {
         ...state,
-        user: action.user
+        user: action.user,
+        isLoggedIn: false
       };
+    case actionTypes.userLogin:
+      return {
+        ...state,
+        isLoggedIn: true
+      }
     default:
       return { ...state };
   }

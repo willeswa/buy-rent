@@ -2,7 +2,7 @@ import React from "react";
 
 
 export const withUserAuthentication = Component => props =>
-  !props.user ? (
+  !props.loggedin ? (
     <Component
       signup="Signup"
       login="Login"

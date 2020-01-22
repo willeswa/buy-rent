@@ -10,7 +10,7 @@ export default () => {
   const [propertyTypes, setTypes] = useState([]);
   const [properties, setProperties] = useState([]);
 
-  const baseUrl = "http://127.0.0.1:8000/api/properties";
+  const baseUrl = "https://bungomaplus.herokuapp.com/api/properties";
 
   
   const handleClick = () => {
