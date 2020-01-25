@@ -31,7 +31,7 @@ class StallSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class RentalSerializer(serializers.ModelSerializer):
-    owner = UserSerializer()
+    owner = UserSerializer(read_only=True)
     class Meta:
         model = Rental
         fields = "__all__"
