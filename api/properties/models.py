@@ -39,7 +39,6 @@ class Land(Property):
 
     for_sale = models.BooleanField(default=True)
     land_size = models.FloatField()
-
     
 
 

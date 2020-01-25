@@ -33,8 +33,8 @@ class UserLoginView(generics.CreateAPIView):
             login(request, user)
 
             token = get_tokens(user)
-            return Response({'user': {'id': user.id,'is_admin': user.is_superuser, 'email': user.email, 'token': token}})
-            
+            return Response({'user': {'id': user.id, 'is_admin': user.is_superuser, 'email': user.email, 'token': token, 'phonenumber': user.phonenumber}})
+
         except Exception:
             return Response(status=status.HTTP_401_UNAUTHORIZED, data={"error": "Invalid email or password"})
 
@@ -47,6 +47,7 @@ class UserSignupView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserSignupSerializer
 
+
 class UserListView(generics.RetrieveAPIView):
     """Returns all users
     """
@@ -54,4 +55,3 @@ class UserListView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = UserSerializer
-
