@@ -40,6 +40,8 @@ class Land(Property):
     for_sale = models.BooleanField(default=True)
     land_size = models.FloatField()
 
+    
+
 
 class Hostel(Property):
     """Defines property of the type Hostels
