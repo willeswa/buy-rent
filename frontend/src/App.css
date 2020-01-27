@@ -627,7 +627,7 @@ footer {
   background: rgba(32, 163, 72, 0.6);
   border-radius: 50%;
   opacity: 0;
-  animation: pulsate 2400ms ease-out infinite;
+  animation: pulsate 1500ms ease-out infinite;
 
 }
 
