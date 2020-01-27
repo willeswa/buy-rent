@@ -4,35 +4,37 @@ import useDidMountEffect from "../../utils/custom-hooks/DidMountEffect";
 import history from "../history";
 import types from "../../reducers/actionTypes";
 import { UserContext } from "../contexts";
-import {message} from "antd";
+import { message } from "antd";
 
 const baseUrl = "https://bungomaplus.herokuapp.com/api/";
 
+
+
 export const Getter = endpoint => {
-  
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [error, setError] = useState({isError: false, message: ""});
+  const [error, setError] = useState({ isError: false, message: "" });
   const url = `${baseUrl}${endpoint}`;
 
   useEffect(() => {
     const doGet = async () => {
-      setError({...error, isError: false})
+      setError({ ...error, isError: false });
       setIsLoading(true);
 
       let result;
 
       try {
         result = await axios(url);
-
         setData(result.data);
+        localStorage.setItem("properties", JSON.stringify(result.data));
       } catch (err) {
-        setError({...error, isError: true})
+        setError({ ...error, isError: true });
+
         err.message === "Network Error"
-        ? setError({...error, message: "You seem to be offline"})
-        : setError({...error, message: err.response.data.error})
+          ? setError({ ...error, message: "You seem to be offline" })
+          : setError({ ...error, message: err.response.data.error });
       }
-      
+
       setIsLoading(false);
     };
     doGet();
@@ -46,7 +48,7 @@ export const PropertySetter = () => {
   const [submit, setSubmit] = useState(false);
   const [error, setError] = useState({ isError: false, message: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const [drawer, setOpenDrawer] = useState(false)
+  const [drawer, setOpenDrawer] = useState(false);
   const [thisUserProperties, setThisUserProperties] = useState({});
   const dispatch = useContext(UserContext);
 
@@ -62,32 +64,29 @@ export const PropertySetter = () => {
       setError({ ...error, isError: false });
       setIsLoading(true);
 
-      console.log(url, propertyData, headers)
-
       try {
         let result = await axios.post(url, propertyData, { headers: headers });
-        setIsLoading(false)
-        setOpenDrawer(false)
-        message.success('Your property was successfully added!')
-        console.log(result);
-      } catch (error) {
-        console.log(error.response)
+        setIsLoading(false);
+        setOpenDrawer(false);
+        message.success("Your property was successfully added!");
+      } catch (err) {
+        console.log(err.response);
         setSubmit(false);
         setIsLoading(false);
 
-        error.message === "Network Error"
+        err.message === "Network Error"
           ? setError({
               ...error,
               message: "Seems you're offline!",
               isError: true
             })
-          : error.response.status === 400
+          : err.response.status === 400
           ? setError({
               ...error,
               message: "You have a similar property exists!",
               isError: true
             })
-          : error.response.status === 401
+          : err.response.status === 401
           ? setError({
               error,
               message: "Session expired! Please loggin.",
@@ -98,7 +97,15 @@ export const PropertySetter = () => {
     };
     addProperty();
   }, [url, submit]);
-  return [setOpenDrawer, drawer, isLoading, error, setUrl, setPropertyData, setSubmit];
+  return [
+    setOpenDrawer,
+    drawer,
+    isLoading,
+    error,
+    setUrl,
+    setPropertyData,
+    setSubmit
+  ];
 };
 
 export const AuthSetter = () => {

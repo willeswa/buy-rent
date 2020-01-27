@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import Geocode from "react-geocode";
+
 
 import { Card, Empty, Drawer, InputNumber, Switch, Alert } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { PropertySetter } from "../../utils/custom-hooks/HitTheServer";
+import Login from "./Login";
+
+Geocode.setApiKey("AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk");
 
 const provinceData = [
   "Elgon",
@@ -51,8 +56,6 @@ const baseUrl = "https://bungomaplus.herokuapp.com/api/properties/";
 const { Meta } = Card;
 
 export default ({ state }) => {
- 
-
   const viewPort = window.innerWidth;
 
   const [divisions, setDivisions] = useState(cityData[provinceData[0]]);
@@ -70,7 +73,15 @@ export default ({ state }) => {
   const [propertyType, setPropertyType] = useState("");
   const [url, setTypeUrl] = useState(baseUrl);
 
-  const [setOpenDrawer, drawer, isLoading, error, setUrl, setProperty, setSubmit] = PropertySetter();
+  const [
+    setOpenDrawer,
+    drawer,
+    isLoading,
+    error,
+    setUrl,
+    setProperty,
+    setSubmit
+  ] = PropertySetter();
 
   const openDrawer = () => {
     setOpenDrawer(true);
@@ -84,8 +95,32 @@ export default ({ state }) => {
   const handleProvinceChange = e => {
     let value = e.target.value;
     setDivisions(cityData[value]);
-    setPropertyData({ ...propertyData, division: value });
     setWard(cityData[value][0]);
+
+ 
+
+    Geocode.fromAddress(`${ward}+${value}`).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+
+        setPropertyData({
+          ...propertyData,
+          division: value,
+          longitude: lng,
+          latitude: lat
+        });
+      },
+      error => {
+
+        setPropertyData({
+          ...propertyData,
+          division: value,
+          longitude: 34.5777565,
+          latitude: 0.5949997
+        });
+      }
+    );
+    
   };
 
   const onwardChange = e => {
@@ -101,7 +136,7 @@ export default ({ state }) => {
 
   const handleOfficeSpaceChange = e => {
     let value = e.target.value;
-    setPropertyData({ ...propertyData, squre_feet: value });
+    setPropertyData({ ...propertyData, square_feet: value });
   };
 
   const handleAcreageChange = e => {
@@ -250,6 +285,7 @@ export default ({ state }) => {
         </div>
       </div>
       <Drawer
+        zIndex={2000}
         title={
           isLoading
             ? `Please wait. We are creating your ${propertyType}...`
@@ -258,9 +294,6 @@ export default ({ state }) => {
         width={viewPort < 1200 ? "100%" : "60%"}
         onClose={closeDrawer}
         visible={drawer}
-        className={
-          viewPort < 1200 ? "mobile-new-property-form" : "new-property-form"
-        }
       >
         <div>
           {error.isError ? (

@@ -64,6 +64,9 @@ export default () => {
           <a href="/properties" className="btn btn-lg">I AM LOOKING</a>{" "}
           <button className="btn btn-lg ml-3" onClick={handleClick}>I AM SELLING</button>
         </div>
+        
+          <p className="call-now-p">Need help? Call +(254)-721-175171</p>
+
       </div>
       <div className="container">
         <h4 className="h5">Propety Categories</h4>
@@ -77,11 +80,11 @@ export default () => {
                 className="card-img-top img-fluid"
               />
               <div className="card-body">
-                <h4 className="card-title">{type.name}</h4>
+                <h4 className="card-title" id="home-type">{type.name}</h4>
                 <a
                   className="btn btn-lg btn-block"
                   id="homeTypeButton"
-                  href={type.name.toLowerCase()}
+                  href={`/properties/${type.name.toLowerCase()}`}
                 >
                   All {type.name}
                 </a>
@@ -104,7 +107,7 @@ export default () => {
                 className="card-img-top img-fluid"
               />
               <div className="card-body">
-                <h4 className="card-title">{property.title}</h4>
+                <h4 className="card-title">{property.title.length > 30 ? `${property.title.slice(0, 30)}...` : property.title}</h4>
                 <div className="row pt-2 pb-4">
                   <span className="col-7">
                     {property.locality} in {property.ward}, {property.division}
@@ -176,9 +179,9 @@ export default () => {
               Lease or sell propety in Bungoma County
             </span>
           </h1>{" "}
-          <a className="btn" id="strip-button" href="/">
+          <button className="btn" id="strip-button" onClick={() => handleClick()}>
             List your Property
-          </a>
+          </button>
         </div>
         <div className="d-flex" id="extras">
           <div className="col-3">

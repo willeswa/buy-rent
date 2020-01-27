@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire, faHome } from "@fortawesome/free-solid-svg-icons";
 
 export default () => {
-  const [{ data, isLoading, error }] = Getter("properties/all", "get");
+  const [{ data, isLoading, error }] = Getter("properties/all");
 
   const groupByType = (data, key) =>
     data.reduce((obj, property) => {
