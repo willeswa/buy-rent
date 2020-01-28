@@ -488,6 +488,36 @@ const OfficeComponent = ({
     ["lands", "hostels", "stalls", "rentals"]
   );
 
+
+  const RentalComponent = ({
+    center,
+    zoom,
+    isLoading,
+    error,
+    showThisProperty,
+    data,
+    drawer,
+    openDrawer,
+    closeDrawer,
+    state
+  }) =>
+    listCardProperties(
+      center,
+      zoom,
+      isLoading,
+      error,
+      showThisProperty,
+      data,
+      state,
+      drawer,
+      openDrawer,
+      closeDrawer,
+      "Rentals",
+      ["lands", "hostels", "stalls", "offices"]
+    );
+
+export const Rentals = withData(RentalComponent)
+
 export const Land = withData(LandComponent);
 export const Hostel = withData(HostelComponent);
 export const Stall = withData(StallComponent);
