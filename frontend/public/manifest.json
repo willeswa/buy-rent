@@ -22,5 +22,5 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-    "content_security_policy": "font-src 'self' https: data:; img-src 'self' https: data:; default-src 'self' http://localhost:3000  https://bungomaplus.herokuapp.com; style-src 'self' https: 'unsafe-inline'; script-src 'self' http://localhost:3000  https://bungomaplus.herokuapp.com https://maps.googleapis.com 'unsafe-inline' 'unsafe-eval';"
+    "content_security_policy": " default-src *; font-src 'self' https: data:; img-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' http://localhost:3000  https://bungomaplus.herokuapp.com https://maps.googleapis.com 'unsafe-inline' 'unsafe-eval';"
 }
