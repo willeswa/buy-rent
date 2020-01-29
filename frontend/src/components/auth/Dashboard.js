@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Geocode from "react-geocode";
 
 
-import { Card, Empty, Drawer, InputNumber, Switch, Alert } from "antd";
+import { Card, Empty, Drawer, List, Switch, Alert } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { PropertySetter } from "../../utils/custom-hooks/HitTheServer";
@@ -270,6 +270,9 @@ export default ({ state }) => {
           </Card>
         </div>
         <div class="col-lg-8 ">
+          <List>
+            
+          </List>
           <Empty
             className="empty"
             image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
