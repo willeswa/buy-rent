@@ -171,7 +171,7 @@ const listCardProperties = (
                   <div className="maps-container">
                     <GoogleMapReact
                       bootstrapURLKeys={{
-                        key: "AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk"
+                        key: `${process.env.REACT_APP_GOOGLE_API_KEY}`
                       }}
                       defaultCenter={center}
                       defaultZoom={zoom}
