@@ -13,11 +13,7 @@ router.register(r'hostels', HostelViewset)
 router.register(r'offices', OfficeSpaceViewset)
 router.register(r'rentals', RentalViewset)
 router.register(r'stalls', StallViewset)
+router.register(r'all', AllProperties)
 
 
-urlpatterns = [
-    url(r'^all$', AllProperties.as_view())
-]
-
-
-urlpatterns += router.urls
+urlpatterns = router.urls

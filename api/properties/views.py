@@ -2,9 +2,9 @@ from rest_framework import viewsets, views
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import PropertyType, Stall, Rental, Land, OfficeSpace, Hostel
+from .models import PropertyType, Stall, Rental, Land, OfficeSpace, Hostel, Property
 from .serializers import PropertyTypeSerializer, LandSerializer,\
-    RentalSerializer, HostelSerializer, OfficeSpaceSerializer, StallSerializer
+    RentalSerializer, HostelSerializer, OfficeSpaceSerializer, StallSerializer, AllPropertySerializer
 from ..authentication.serializers import UserSerializer
 from ..utils.validatators import validate_phone_number, validate_text_input
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -31,6 +31,7 @@ class LandViewset(viewsets.ModelViewSet):
 class StallViewset(viewsets.ModelViewSet):
     """View for Stall
     """
+    print('is it here')
 
     queryset = Stall.objects.all()
     serializer_class = StallSerializer
@@ -64,27 +65,10 @@ class RentalViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-class AllProperties(views.APIView):
+class AllProperties(viewsets.ModelViewSet):
     """Constract a list of all properties
     """
-
+    queryset = Property.objects.all()
+    serializer_class = AllPropertySerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get(self, request, formart=None):
-        """Returns a list of all the properties in the system
-        """
-
-        lands = [{'id': 1+land.id, 'owner':land.owner.id, 'property_type': 'Lands', 'title': land.title, 'price': land.price, 'image': land.image, 'division': land.division,
-                  'ward': land.ward, 'locality': land.locality} for land in Land.objects.all()]
-        stalls = [{'id': 2+stall.id, 'owner':stall.owner.id, 'property_type': 'Stalls', 'title': stall.title, 'price': stall.price, 'image': stall.image, 'division': stall.division,
-                   'ward': stall.ward, 'locality': stall.locality} for stall in Stall.objects.all()]
-        offices = [{'id': 3+office.id,'owner':office.owner.id, 'property_type': 'Offices', 'title': office.title, 'price': office.price, 'image': office.image, 'division': office.division,
-                    'ward': office.ward, 'locality': office.locality} for office in OfficeSpace.objects.all()]
-        rentals = [{'id': 4+rental.id, 'owner':rental.owner.id, 'property_type': 'Rentals', 'title': rental.title, 'price': rental.price, 'image': rental.image, 'division': rental.division,
-                    'ward': rental.ward, 'locality': rental.locality} for rental in Rental.objects.all()]
-        hostels = [{'id': 5+hostel.id, 'owner':hostel.owner.id, 'property_type': 'Hostels', 'title': hostel.title, 'price': hostel.price, 'image': hostel.image, 'division': hostel.division,
-                    'ward': hostel.ward, 'locality': hostel.locality} for hostel in Hostel.objects.all()]
-
-        all_properties = lands + stalls + offices + rentals + hostels
-
-        return Response(data=all_properties, status=status.HTTP_200_OK)
