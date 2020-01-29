@@ -4,15 +4,13 @@ from ..authentication.models import User
 
 class PropertyType(models.Model):
     name = models.CharField(max_length=80, unique=True)
-    image = models.CharField(max_length=500)
+    type_image = models.CharField(max_length=500)
 
 
 class Property(models.Model):
     """Defines a model for a property of type land
     """
-
-    property_type = models.ForeignKey(
-        PropertyType, on_delete=models.DO_NOTHING)
+    property_type = models.ForeignKey(PropertyType, on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField(max_length=1500)
     image = models.CharField(max_length=500)
@@ -21,16 +19,16 @@ class Property(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     active = models.BooleanField(default=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     price = models.FloatField()
     division = models.CharField(max_length=150, null=True)
     ward = models.CharField(max_length=150, null=True)
     locality = models.CharField(max_length=150, null=True)
 
     class Meta:
-        abstract = True
         unique_together = ('title', 'owner', 'property_type')
+        ordering = ['created_at']
 
 
 class Land(Property):
@@ -39,7 +37,6 @@ class Land(Property):
 
     for_sale = models.BooleanField(default=True)
     land_size = models.FloatField()
-    
 
 
 class Hostel(Property):
@@ -72,4 +69,3 @@ class OfficeSpace(Property):
 
     square_feet = models.FloatField()
     internet = models.BooleanField(default=True)
-
