@@ -74,9 +74,8 @@ export default () => {
         <ul className="row no-gutters pl-3">
           {propertyTypes.map(type => (
             <li key={type.id} className="navbar-nav card m-2">
-              {console.log(type)}
               <img
-                src={type.type_image}
+                src={type.image}
                 alt={type.name}
                 className="card-img-top img-fluid"
               />

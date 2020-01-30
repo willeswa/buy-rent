@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Geocode from "react-geocode";
 
-import { Card, Result, Drawer, List, Switch, Alert } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { PropertySetter, Getter, DeleteRecord } from "../../utils/custom-hooks/HitTheServer";
-import { toDateMonth } from "../../utils/Converters";
-import history from "../../utils/history";
 
+import { Card, Empty, Drawer, InputNumber, Switch, Alert } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { PropertySetter } from "../../utils/custom-hooks/HitTheServer";
+import Login from "./Login";
 
 Geocode.setApiKey("AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk");
 
@@ -56,16 +55,7 @@ const baseUrl = "https://bungomaplus.herokuapp.com/api/properties/";
 
 const { Meta } = Card;
 
-
 export default ({ state }) => {
-  if (!state.isLoggedIn) {
-    window.location.replace("/login");
-  }
-
-  const headers =  {
-    headers: { Authorization: `Bearer ${state.user.user.token.access}` }
-  }
-
   const viewPort = window.innerWidth;
 
   const [divisions, setDivisions] = useState(cityData[provinceData[0]]);
@@ -82,12 +72,6 @@ export default ({ state }) => {
   });
   const [propertyType, setPropertyType] = useState("");
   const [url, setTypeUrl] = useState(baseUrl);
-  const [deleteUrl, setdeleteUrl] = useState(null)
-
-  const [userPproperty, upIsLoading, upError] = Getter(
-    "properties/all/by_user/",
-   headers
-  );
 
   const [
     setOpenDrawer,
@@ -98,11 +82,10 @@ export default ({ state }) => {
     setProperty,
     setSubmit
   ] = PropertySetter();
-  const [delLoading, delError, delSuccess, setDel] = DeleteRecord(deleteUrl, headers);
 
   const openDrawer = () => {
     setOpenDrawer(true);
-    setPropertyData({ ...propertyData, owner_id: state.user.user.id });
+    setPropertyData({ ...propertyData, owner: state.user.user.id });
   };
 
   const closeDrawer = () => {
@@ -113,6 +96,8 @@ export default ({ state }) => {
     let value = e.target.value;
     setDivisions(cityData[value]);
     setWard(cityData[value][0]);
+
+ 
 
     Geocode.fromAddress(`${ward}+${value}`).then(
       response => {
@@ -126,6 +111,7 @@ export default ({ state }) => {
         });
       },
       error => {
+
         setPropertyData({
           ...propertyData,
           division: value,
@@ -134,6 +120,7 @@ export default ({ state }) => {
         });
       }
     );
+    
   };
 
   const onwardChange = e => {
@@ -170,14 +157,6 @@ export default ({ state }) => {
         return;
     }
   };
-
-  const handleDelete = propertyId => {
-    setdeleteUrl(`/properties/${propertyId}/`)
-    let confirmed = window.confirm('Are you sure you want to delete this listing?')
-    if(confirmed){
-      setDel(true)
-    }
-  }
 
   const handleRoomChange = e => {
     let value = e.target.value;
@@ -267,65 +246,42 @@ export default ({ state }) => {
     setPropertyData({ ...propertyData, wifi: checked });
   };
 
+  console.log(propertyData, url);
+
   return (
     <div class="container dashboard-container">
       <div class="row">
-        <div class="col-md-12 logged-properties">
-          {upIsLoading ? (
-            <p>Loading ...</p>
-          ) : upError.isError ? (
-            <Result status="401" title="401" subTitle={upError.message} />
-          ) : (
-            <List
-              header="Your properties"
-              dataSource={userPproperty}
-              renderItem={item => {
-                let d = toDateMonth(item.created_at);
-                return (
-                  <List.Item className="property-list-item">
-                    <div className="created-at">
-                      <span className="month">{d[0]}</span>
-                      <span className="date">{d[1]}</span>
-                    </div>
-                    <div className="prop-detail">
-                      <h5>
-                        {viewPort < 1200
-                          ? `${item.title.slice(0, 30)}...`
-                          : item.title}
-                      </h5>
-                      <div className="meta">
-                        <span className="mr-2">
-                          {viewPort < 1200 ? `${item.locality.slice(0, 12)}, ${item.ward.slice(0, 8)}...` : `${item.locality}, ${item.ward}`}
-                        </span>
-                        <span
-                          className={
-                            item.active ? "activeProperty" : "expiredProperty"
-                          }
-                        >
-                          {item.active ? "Active" : "Expired"}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="d-flex center edit-del">
-                      <FontAwesomeIcon icon={faTrashAlt} size="2x" className="ml-2 del-btn" color="#ED5E68" onClick={() => handleDelete(item.id)} />
-                      <FontAwesomeIcon icon={faEdit} size="2x" className="ml-3 edit-btn" color="#1d832d" />
-                    </div>
-                  </List.Item>
-                );
-              }}
-            />
-          )}
-        </div>
-        <div className="pt-4 pb-4">
-          <button
-            type="button"
-            onClick={openDrawer}
-            className={
-              state.isLoggedIn ? "hiddentity" : "btn btn-sm float-right"
+        <div class="col-lg-4">
+          <Card
+            className="col-lg-12 profile-card"
+            style={{ width: 250 }}
+            cover={
+              <img
+                alt="profile"
+                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                className="img-thumbnail"
+                style={{
+                  height: 200
+                }}
+              />
             }
           >
-            <FontAwesomeIcon icon={faPlus} /> Add Property
-          </button>
+            <Meta description={state.user.user.email} />
+          </Card>
+        </div>
+        <div class="col-lg-8 ">
+          <Empty
+            className="empty"
+            image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+            imageStyle={{
+              height: 60
+            }}
+            description={<span>Your properties will show here</span>}
+          >
+            <button type="button" className="btn btn-sm" onClick={openDrawer}>
+              <FontAwesomeIcon icon={faPlus} /> Add Property
+            </button>
+          </Empty>
         </div>
       </div>
       <Drawer
