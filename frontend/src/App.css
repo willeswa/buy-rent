@@ -61,7 +61,7 @@ img{
 }
 
 .signupForm {
-  margin: 2% auto 13% auto;
+  margin: 2% auto;
   padding: 2% 3%;
   width: 42%;
   background: #ffffff;
@@ -166,6 +166,11 @@ input.form-control::placeholder, textarea.form-control::placeholder {
 
 .container-fluid {
   background: #ffffff;
+}
+
+.container, .container-fluid, .auth-container {
+  min-height: calc(80vh);
+  
 }
 
 .container-fluid .card {
@@ -356,12 +361,17 @@ footer {
 }
 
 .dashboard-container {
-  padding: 5% 7% 10% 7%;
+  padding: 2% 10%;
 }
 
 .empty {
   padding: 12%;
   background: #ffffff;
+}
+
+.empty-container{
+  width: 50%;
+  margin: 8% auto;
 }
 
 .img-thumbnail {
@@ -631,6 +641,68 @@ footer {
 
 }
 
+.logged-properties{
+  background: #FFFFFF;
+}
+
+.created-at{
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.created-at .date{
+  font-size: 1.2em;
+}
+
+.prop-detail{
+  width: 70%;
+}
+
+.prop-detail h5{
+  font-size: 1.1em;
+  font-weight: 400;
+}
+
+.prop-detail .meta{
+  font-size: 0.9em;
+  opacity: 0.6;
+}
+
+.property-list-item{
+  background: #F9F9F9;
+  margin: 1% 0;
+}
+
+.activeProperty{
+  color: #1d832d;
+  border: #1d832d 1px solid;
+  padding: 1px 8px;
+  border-radius: 5px;
+  font-size: 0.7em;
+
+}
+
+.edit-del{
+  width: 15%;
+  opacity: 0.8;
+}
+
+.expiredProperty{
+  color: red;
+  border: red 1px solid;
+  padding: 1px 8px;
+  border-radius: 5px;
+  font-size: 0.7em;
+}
+
+.del-btn, .edit-btn{
+  cursor: pointer;
+}
+
 @keyframes pulsate {
   0% {
   transform: scale(0.1);
@@ -652,6 +724,30 @@ MOBILE CSS STARTS HERE
 
 
 @media (max-width: 1200px) {
+
+
+
+  .prop-detail {
+    width: 60%;
+  }
+
+  .prop-detail .meta{
+    font-size: 0.8em;
+  }
+
+
+  .prop-detail h5{
+    font-size: 1em;
+  }
+
+  .empty-container{
+    width: 98%;
+  }
+
+  .dashboard-container {
+    padding: 5%;
+  }
+
   .call-now-p{
     width: 100%;
     padding-top: 5%;
@@ -796,7 +892,6 @@ MOBILE CSS STARTS HERE
   .signupForm {
     width: 100%;
     margin-top: 0;
-    margin-bottom: 20%;
   }
 
   .list-now-strip {

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire, faHome } from "@fortawesome/free-solid-svg-icons";
 
 export default () => {
-  const [{ data, isLoading, error }] = Getter("properties/all");
+  const [ data, isLoading, error ] = Getter("properties/all");
 
   const groupByType = (data, key) =>
     data.reduce((obj, property) => {
@@ -15,7 +15,6 @@ export default () => {
     }, {});
 
   const sortedPropertiesObj = groupByType(data, "property_type");
-  console.log(sortedPropertiesObj['Rentals'])
 
   return (
     <div className="container-fluid pb-3" id="properties-main">
@@ -42,7 +41,6 @@ export default () => {
                   Popular in {property_key}
                 </Divider>
                 <ul className="row pt-3">
-                  {console.log(sortedPropertiesObj[property_key], '<<<<')}
                   {sortedPropertiesObj[property_key]
                     .slice(0, 6)
                     .map(property => (

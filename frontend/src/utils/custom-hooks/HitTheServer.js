@@ -5,16 +5,16 @@ import history from "../history";
 import types from "../../reducers/actionTypes";
 import { UserContext } from "../contexts";
 import { message } from "antd";
+import { async } from "regenerator-runtime";
 
 const baseUrl = "https://bungomaplus.herokuapp.com/api/";
 
-
-
-export const Getter = endpoint => {
+export const Getter = (endpoint, headers) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState({ isError: false, message: "" });
   const url = `${baseUrl}${endpoint}`;
+  const dispatch = useContext(UserContext);
 
   useEffect(() => {
     const doGet = async () => {
@@ -24,22 +24,45 @@ export const Getter = endpoint => {
       let result;
 
       try {
-        result = await axios(url);
+        if (!headers) {
+          result = await axios(url);
+        } else {
+          result = await axios(url, headers);
+        }
+
         setData(result.data);
         localStorage.setItem("properties", JSON.stringify(result.data));
       } catch (err) {
         setError({ ...error, isError: true });
+        if (err.message === "Network Error") {
+          setError({
+            ...error,
+            isError: true,
+            message: "You seem to be offline"
+          });
+        } else if (err.response.status === 401) {
+          setError({
+            ...error,
+            isError: true,
+            message: "Session expired! Please login to continue. "
+          });
 
-        err.message === "Network Error"
-          ? setError({ ...error, message: "You seem to be offline" })
-          : setError({ ...error, message: err.response.data.error });
+          localStorage.clear()
+          dispatch({ type: types.logoutUser, user: null });
+        } else {
+          setError({
+            ...error,
+            isError: true,
+            message: err.response.data.error
+          });
+        }
       }
 
       setIsLoading(false);
     };
     doGet();
   }, []);
-  return [{ data, isLoading, error }];
+  return [data, isLoading, error];
 };
 
 export const PropertySetter = () => {
@@ -49,8 +72,7 @@ export const PropertySetter = () => {
   const [error, setError] = useState({ isError: false, message: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [drawer, setOpenDrawer] = useState(false);
-  const [thisUserProperties, setThisUserProperties] = useState({});
-  const dispatch = useContext(UserContext);
+
 
   let token = JSON.parse(localStorage.getItem("token")).access;
 
@@ -175,3 +197,31 @@ export const AuthSetter = () => {
 
   return [isLoading, error, setUrl, setuserData, setSubmit];
 };
+
+
+export const DeleteRecord = (endpoint, headers) => {
+  const [error, setError] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [success, setSuccess] = useState("")
+  const [del, setDel] = useState(false)
+  const url = `${baseUrl}${endpoint}`;
+
+  useDidMountEffect(() => {
+    const deleteRecord = async () => {
+      setError({...error, isError: false})
+      setIsLoading(true)
+
+      try {
+        await axios.delete(url, headers)
+        setSuccess("Successfuly deleted!")
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+        setIsLoading(false)
+        setError({...error, isError: true, message: err.response.data})
+      }
+    };
+    deleteRecord()
+  }, [del])
+  return [isLoading, error, success, setDel]
+}
