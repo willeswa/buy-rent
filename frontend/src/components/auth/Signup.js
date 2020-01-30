@@ -28,7 +28,7 @@ export default () => {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       {error.isError ? (
         <div className="antd-holder">
           <Alert
