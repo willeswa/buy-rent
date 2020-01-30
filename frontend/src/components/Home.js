@@ -75,7 +75,7 @@ export default () => {
           {propertyTypes.map(type => (
             <li key={type.id} className="navbar-nav card m-2">
               <img
-                src={type.image}
+                src={type.type_image}
                 alt={type.name}
                 className="card-img-top img-fluid"
               />

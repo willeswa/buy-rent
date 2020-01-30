@@ -13,6 +13,7 @@ const withData = Component => props => {
   const [showThisProperty, setShowThisProperty] = useState({});
   const [{ data, isLoading, error }] = Getter(props.endpoint);
   const [drawer, setDrawer] = useState(false);
+  console.log('>>>>>>>>>>>>>>>><<<<<<<<<<<<', showThisProperty)
   const {
     center = {
       lat: showThisProperty.latitude,
@@ -171,7 +172,7 @@ const listCardProperties = (
                   <div className="maps-container">
                     <GoogleMapReact
                       bootstrapURLKeys={{
-                        key: "AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk"
+                        key: `${process.env.REACT_APP_GOOGLE_API_KEY}`
                       }}
                       defaultCenter={center}
                       defaultZoom={zoom}
@@ -516,7 +517,7 @@ const OfficeComponent = ({
       ["lands", "hostels", "stalls", "offices"]
     );
 
-export const Rentals = withData(RentalComponent)
+export const Rental = withData(RentalComponent)
 
 export const Land = withData(LandComponent);
 export const Hostel = withData(HostelComponent);
