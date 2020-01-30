@@ -13,6 +13,7 @@ const withData = Component => props => {
   const [showThisProperty, setShowThisProperty] = useState({});
   const [{ data, isLoading, error }] = Getter(props.endpoint);
   const [drawer, setDrawer] = useState(false);
+  console.log('>>>>>>>>>>>>>>>><<<<<<<<<<<<', showThisProperty)
   const {
     center = {
       lat: showThisProperty.latitude,
