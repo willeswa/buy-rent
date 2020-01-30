@@ -171,7 +171,7 @@ const listCardProperties = (
                   <div className="maps-container">
                     <GoogleMapReact
                       bootstrapURLKeys={{
-                        key: `${process.env.REACT_APP_GOOGLE_API_KEY}`
+                        key: "AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk"
                       }}
                       defaultCenter={center}
                       defaultZoom={zoom}
@@ -487,36 +487,6 @@ const OfficeComponent = ({
     "Offices",
     ["lands", "hostels", "stalls", "rentals"]
   );
-
-
-  const RentalComponent = ({
-    center,
-    zoom,
-    isLoading,
-    error,
-    showThisProperty,
-    data,
-    drawer,
-    openDrawer,
-    closeDrawer,
-    state
-  }) =>
-    listCardProperties(
-      center,
-      zoom,
-      isLoading,
-      error,
-      showThisProperty,
-      data,
-      state,
-      drawer,
-      openDrawer,
-      closeDrawer,
-      "Rentals",
-      ["lands", "hostels", "stalls", "offices"]
-    );
-
-export const Rentals = withData(RentalComponent)
 
 export const Land = withData(LandComponent);
 export const Hostel = withData(HostelComponent);

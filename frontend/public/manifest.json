@@ -1,7 +1,8 @@
 {
-  "short_name": "Buy & Rent Bungoma",
-  "name": "Properties on sell",
-  "icons": [{
+  "short_name": "Bungoma Plus",
+  "name": "Create React App Sample",
+  "icons": [
+    {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
@@ -19,7 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#20A348",
-  "background_color": "#ffffff",
-  "content_security_policy": " default-src *; img-src 'self' https://bungomaplus.herokuapp.com: data:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' http://localhost:3000  https://bungomaplus.herokuapp.com https://maps.googleapis.com 'unsafe-inline' 'unsafe-eval';"
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }

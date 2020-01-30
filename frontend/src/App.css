@@ -608,8 +608,8 @@ footer {
 
 
     position: relative;
-    top: 0px;
-    left: 15px;
+    top: 6px;
+    left: 17px;
     border-radius: 50%;
     z-index: 1000;
 
@@ -627,7 +627,7 @@ footer {
   background: rgba(32, 163, 72, 0.6);
   border-radius: 50%;
   opacity: 0;
-  animation: pulsate 1500ms ease-out infinite;
+  animation: pulsate 2400ms ease-out infinite;
 
 }
 
