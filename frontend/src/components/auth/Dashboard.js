@@ -6,7 +6,6 @@ import { Card, Empty, Drawer, List, Switch, Alert } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { PropertySetter } from "../../utils/custom-hooks/HitTheServer";
-import Login from "./Login";
 
 Geocode.setApiKey("AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk");
 
@@ -85,7 +84,7 @@ export default ({ state }) => {
 
   const openDrawer = () => {
     setOpenDrawer(true);
-    setPropertyData({ ...propertyData, owner: state.user.user.id });
+    setPropertyData({ ...propertyData, owner_id: state.user.user.id });
   };
 
   const closeDrawer = () => {
@@ -251,28 +250,8 @@ export default ({ state }) => {
   return (
     <div class="container dashboard-container">
       <div class="row">
-        <div class="col-lg-4">
-          <Card
-            className="col-lg-12 profile-card"
-            style={{ width: 250 }}
-            cover={
-              <img
-                alt="profile"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                className="img-thumbnail"
-                style={{
-                  height: 200
-                }}
-              />
-            }
-          >
-            <Meta description={state.user.user.email} />
-          </Card>
-        </div>
-        <div class="col-lg-8 ">
-          <List>
-            
-          </List>
+        <div class="col-md-12">
+          
           <Empty
             className="empty"
             image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"

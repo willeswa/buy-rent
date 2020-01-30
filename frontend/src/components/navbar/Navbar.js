@@ -13,7 +13,7 @@ import { NavItem, RightNavbar } from "./NavItem";
 import { withUserAuthentication } from "../../utils/HighOrder";
 import { UserContext } from "../../utils/contexts";
 import types from "../../reducers/actionTypes";
-import { Land, Hostel, Stall, Office } from "../PropertyByType";
+import { Land, Hostel, Stall, Office, Rental } from "../PropertyByType";
 
 const Authenticated = withUserAuthentication(RightNavbar);
 
@@ -78,6 +78,10 @@ export default ({ state }) => {
           <Route
             path="/properties/stalls"
             render={() => <Stall endpoint="properties/stalls" state={state} />}
+          />
+           <Route
+            path="/properties/rentals"
+            render={() => <Rental endpoint="properties/rentals" state={state} />}
           />
           <Route
             path="/properties/offices"

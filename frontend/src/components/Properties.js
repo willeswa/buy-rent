@@ -15,6 +15,7 @@ export default () => {
     }, {});
 
   const sortedPropertiesObj = groupByType(data, "property_type");
+  console.log(sortedPropertiesObj['Rentals'])
 
   return (
     <div className="container-fluid pb-3" id="properties-main">
@@ -32,13 +33,16 @@ export default () => {
           </div>
         ) : (
           <>
-            {Object.keys(sortedPropertiesObj).map(property_key => (
-              <div className="type-devider">
+            {Object.keys(sortedPropertiesObj).map(property_key => {
+
+              
+              return <div className="type-devider">
                 <Divider style={{ padding: 0, margin: 0 }} orientation="left">
                   <FontAwesomeIcon icon={faFire} size="sm" color="#e25822" />{" "}
                   Popular in {property_key}
                 </Divider>
                 <ul className="row pt-3">
+                  {console.log(sortedPropertiesObj[property_key], '<<<<')}
                   {sortedPropertiesObj[property_key]
                     .slice(0, 6)
                     .map(property => (
@@ -79,7 +83,7 @@ export default () => {
                   </span>
                 </a>
               </div>
-            ))}
+            })}
           </>
         )}
       </Skeleton>

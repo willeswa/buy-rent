@@ -13,6 +13,7 @@ const withData = Component => props => {
   const [showThisProperty, setShowThisProperty] = useState({});
   const [{ data, isLoading, error }] = Getter(props.endpoint);
   const [drawer, setDrawer] = useState(false);
+  console.log('>>>>>>>>>>>>>>>><<<<<<<<<<<<', showThisProperty)
   const {
     center = {
       lat: showThisProperty.latitude,
@@ -516,7 +517,7 @@ const OfficeComponent = ({
       ["lands", "hostels", "stalls", "offices"]
     );
 
-export const Rentals = withData(RentalComponent)
+export const Rental = withData(RentalComponent)
 
 export const Land = withData(LandComponent);
 export const Hostel = withData(HostelComponent);
