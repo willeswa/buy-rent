@@ -23,7 +23,7 @@ export default ({ state }) => {
   };
 
   return (
-    <>
+    <div className="auth-container">
       {error.isError ? (
         <div className="antd-holder">
           <Alert
@@ -75,6 +75,6 @@ export default ({ state }) => {
           {isLoading ? "Loging in.." : "Login"}
         </button>
       </form>
-    </>
+    </div>
   );
 };

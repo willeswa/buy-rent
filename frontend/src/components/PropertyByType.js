@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Skeleton, Alert, Input, Drawer } from "antd";
+import { Skeleton, Alert, Input, Drawer, Empty } from "antd";
 import { Getter } from "../utils/custom-hooks/HitTheServer";
 import toMoney from "../utils/Converters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,7 @@ const withData = Component => props => {
   const [showThisProperty, setShowThisProperty] = useState({});
   const [{ data, isLoading, error }] = Getter(props.endpoint);
   const [drawer, setDrawer] = useState(false);
+  console.log('>>>>>>>>>>>>>>>><<<<<<<<<<<<', showThisProperty)
   const {
     center = {
       lat: showThisProperty.latitude,
@@ -21,9 +22,6 @@ const withData = Component => props => {
     zoom = 11
   } = props;
 
-  // const showDetails = () => {
-  //   setDrawer(true)
-  // };
 
   const closeDrawer = () => {
     setDrawer(false);
@@ -43,18 +41,38 @@ const withData = Component => props => {
           <Alert message={error.message} />
         </div>
       ) : (
-        <Component
-          data={data}
-          state={props.state}
-          drawer={drawer}
-          openDrawer={value => openDrawer(value)}
-          closeDrawer={closeDrawer}
-          showThisProperty={showThisProperty}
-          isLoading={isLoading}
-          error={error}
-          center={center}
-          zoom={zoom}
-        />
+        <>
+          {data.length < 1 ? (
+            <div className="empty-container">
+              <Empty
+                className="empty"
+                description={
+                  <span>
+                    Sorry, no properties in this category.
+                    View other properties in: <a href="/properties/stalls">Stalls</a>,&nbsp;
+                    <a href="/properties/rentals">Rentals</a>,&nbsp;
+                    <a href="/properties/lands">Lands</a>,&nbsp;
+                    <a href="/properties/offices">Offices</a>,&nbsp;
+                    <a href="/properties/hostels">Hostels</a>
+                  </span>
+                }
+              />
+            </div>
+          ) : (
+            <Component
+              data={data}
+              state={props.state}
+              drawer={drawer}
+              openDrawer={value => openDrawer(value)}
+              closeDrawer={closeDrawer}
+              showThisProperty={showThisProperty}
+              isLoading={isLoading}
+              error={error}
+              center={center}
+              zoom={zoom}
+            />
+          )}
+        </>
       )}
     </Skeleton>
   );
@@ -76,14 +94,12 @@ const daysFromToday = createdOn => {
 };
 
 const Marker = () => (
- <>
- <span className="marker-effect">
-
- </span>
-  <span className="marker">
-    <FontAwesomeIcon icon={faMapMarkerAlt} color="#1D832D" size="2x" />
-  </span>
- </>
+  <>
+    <span className="marker-effect"></span>
+    <span className="marker">
+      <FontAwesomeIcon icon={faMapMarkerAlt} color="#1D832D" size="2x" />
+    </span>
+  </>
 );
 
 const listCardProperties = (
@@ -112,7 +128,11 @@ const listCardProperties = (
         />
         <div className="others-btn">
           {others.map(other => (
-            <a className="btn btn-sm other-btn" href={`/properties/${other}`}>
+            <a
+              key={`${other}`}
+              className="btn btn-sm other-btn"
+              href={`/properties/${other}`}
+            >
               {other.charAt(0).toUpperCase() + other.slice(1)}
             </a>
           ))}
@@ -166,12 +186,12 @@ const listCardProperties = (
                 viewPort < 1200 ? "mobile-details-drawer" : "lg-details-drawer"
               }
             >
-              <div class="card drawer-content-card">
+              <div className="card drawer-content-card">
                 <div className="d-flex upper-deetail-section">
                   <div className="maps-container">
                     <GoogleMapReact
                       bootstrapURLKeys={{
-                        key: "AIzaSyB_K1Lb4mVmOFlLpmABl-TVYPu7AB9ReDk"
+                        key: `${process.env.REACT_APP_GOOGLE_API_KEY}`
                       }}
                       defaultCenter={center}
                       defaultZoom={zoom}
@@ -184,12 +204,12 @@ const listCardProperties = (
                   </div>
                   <img
                     src={showThisProperty.image}
-                    class="card-img-top"
+                    className="card-img-top"
                     alt={showThisProperty.title}
                   />
                 </div>
 
-                <div class="card-body">
+                <div className="card-body">
                   <div>
                     {showThisProperty.property_type === 1 ? (
                       <div>
@@ -487,6 +507,35 @@ const OfficeComponent = ({
     "Offices",
     ["lands", "hostels", "stalls", "rentals"]
   );
+
+const RentalComponent = ({
+  center,
+  zoom,
+  isLoading,
+  error,
+  showThisProperty,
+  data,
+  drawer,
+  openDrawer,
+  closeDrawer,
+  state
+}) =>
+  listCardProperties(
+    center,
+    zoom,
+    isLoading,
+    error,
+    showThisProperty,
+    data,
+    state,
+    drawer,
+    openDrawer,
+    closeDrawer,
+    "Rentals",
+    ["lands", "hostels", "stalls", "offices"]
+  );
+
+export const Rental = withData(RentalComponent);
 
 export const Land = withData(LandComponent);
 export const Hostel = withData(HostelComponent);
